@@ -1,26 +1,43 @@
 import { gql } from 'apollo-server';
 
 const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
+
+  type User {
+    name: String
+    lastName: String
+    email: String
+    gender: String
   }
 
-  type Person {
+  input UserInput {
     name: String
-    age: Int
+    lastName: String
+    email: String
+    gender: String
   }
 
-  type Recetas {
+  type Ingredient {
     name: String
-    ingredients: String
+  }
+
+  input IngredientInput {
+    name: String
+  }
+
+  type Receta {
+    name: String
+    ingredients: [Ingredient]
     difficulty: String
   }
 
   type Query {
-    books: [Book]
-    person: [Person]
-    recetas: [Recetas]
+    ingredients: [Ingredient]
+    recetas: [Receta]
+  }
+
+  type Mutation {
+    addUser(data: UserInput) : User
+    addIngredient(data: IngredientInput) : Ingredient
   }
 `;
 

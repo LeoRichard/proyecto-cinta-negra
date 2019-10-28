@@ -14,6 +14,11 @@ const typeDefs = gql`
     lastName: String
     email: String
     gender: String
+    password: String
+  }
+
+  type Token {
+    token: String
   }
 
   type Ingredient {
@@ -45,7 +50,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addUser(data: UserInput) : User
+    addUser(data: UserInput) : Token
     addIngredient(ingredientInfo: IngredientInput, recetaID: String) : Ingredient
     addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta
   }

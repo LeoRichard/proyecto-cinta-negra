@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const schema = mongoose.Schema;
 
@@ -19,6 +20,10 @@ const userSchema = new schema(
     gender: {
       type: String,
       enum: ['H', 'M']
+    },
+    password: {
+      type: String,
+      required: true
     }
   },
   { timestamps: true }
@@ -27,5 +32,16 @@ const userSchema = new schema(
 mongoose.Types.ObjectId.prototype.valueOf = function () {
   return this.toString();
 };
+
+userSchema.pre("save", function (next) {
+  let user = this;
+  bcrypt.genSalt(10, function (error, salt) {
+    bcrypt.hash(user.password, salt, function (error, hash) {
+      if (error) return next(error);
+      user.password = hash;
+      next();
+    });
+  });
+});
 
 export default userSchema;

@@ -17,7 +17,9 @@ const typeDefs = gql`
   }
 
   type Ingredient {
+    _id: ID
     name: String
+    recetas: [Receta]
   }
 
   input IngredientInput {
@@ -25,19 +27,27 @@ const typeDefs = gql`
   }
 
   type Receta {
+    _id: ID
     name: String
+    difficulty: String
     ingredients: [Ingredient]
+  }
+
+  input RecetaInput {
+    name: String
     difficulty: String
   }
 
   type Query {
+    users: [User]
     ingredients: [Ingredient]
     recetas: [Receta]
   }
 
   type Mutation {
     addUser(data: UserInput) : User
-    addIngredient(data: IngredientInput) : Ingredient
+    addIngredient(ingredientInfo: IngredientInput, recetaID: String) : Ingredient
+    addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta
   }
 `;
 

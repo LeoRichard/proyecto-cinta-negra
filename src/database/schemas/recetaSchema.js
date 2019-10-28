@@ -2,24 +2,20 @@ import mongoose from 'mongoose';
 
 const schema = mongoose.Schema;
 
-const userSchema = new schema(
+const recetaSchema = new schema(
   {
     name: {
       type: String,
       required: true
     },
-    lastName: {
+    difficulty: {
       type: String,
-      required: true,
+      required: true
     },
-    email: {
-      type: String,
-      required: true,
-    },
-    gender: {
-      type: String,
-      enum: ['H', 'M']
-    }
+    ingredients: [{
+      type: schema.Types.ObjectId,
+      ref: 'ingredients'
+    }]
   },
   { timestamps: true }
 );
@@ -28,4 +24,4 @@ mongoose.Types.ObjectId.prototype.valueOf = function () {
   return this.toString();
 };
 
-export default userSchema;
+export default recetaSchema;

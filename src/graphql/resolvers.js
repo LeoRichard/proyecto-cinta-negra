@@ -5,25 +5,27 @@ import {
 
 import {
   addRecetaAction,
-  updateRecetaAction
+  updateRecetaAction,
+  getAllRecetasAction
 } from './actions/recetasActions';
 
 import {
   addIngredientAction,
-  updateIngredientAction
+  updateIngredientAction,
+  getAllIngredientsAction
 } from './actions/ingredientsActions';
 
 const resolvers = {
   Query: {
-    ingredients: () => ingredients,
-    recetas: () => recetas
+    ingredients: () => getAllIngredientsAction(),
+    recetas: () => getAllRecetasAction()
   },
   Mutation: {
     addUser: async (parent, data, context, info) => {
       try {
         return await addUserAction(data.data);
       } catch (error) {
-        console.log("TCL: error", error)
+        console.log("TCL: error", error);
       }
     },
     addReceta: async (parent, data, context, info) => {
@@ -31,8 +33,11 @@ const resolvers = {
         const { recetaInfo, ingredientID } = data;
         const newReceta = await addRecetaAction(recetaInfo);
         const filter = { _id: ingredientID };
+        const filterReceta = { _id: newReceta._id };
         const update = { $push: { 'recetas': newReceta._id } };
+        const updateReceta = { $push: { 'ingredients': ingredientID } };
         await updateIngredientAction(filter, update);
+        await updateRecetaAction(filterReceta, updateReceta);
         return newReceta;
       } catch (error) {
 

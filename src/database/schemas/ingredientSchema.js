@@ -10,7 +10,7 @@ const ingredientSchema = new schema(
     },
     recetas: [{
       type: schema.Types.ObjectId,
-      ref: 'recetas'
+      ref: 'receta'
     }]
 
   },

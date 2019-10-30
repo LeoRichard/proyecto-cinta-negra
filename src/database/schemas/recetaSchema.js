@@ -14,7 +14,7 @@ const recetaSchema = new schema(
     },
     ingredients: [{
       type: schema.Types.ObjectId,
-      ref: 'ingredients'
+      ref: 'ingredient'
     }]
   },
   { timestamps: true }

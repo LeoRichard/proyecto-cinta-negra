@@ -39,7 +39,7 @@ const getAllUsersAction = async () => {
       populate: {
        path: 'ingredients'
      }
-    });
+   }).populate({ path: 'recetas' });
   } catch (error) {
     console.log("TCL: getAllUsersAction -> error", error);
   }

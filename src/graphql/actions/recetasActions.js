@@ -2,6 +2,7 @@ import { RecetaModel } from '../../database/models';
 
 const addRecetaAction = async (recetaData) => {
   try {
+    console.log("Receta creada");
     return await RecetaModel.create(recetaData);
   } catch (error) {
     console.log("TCL: error", error);

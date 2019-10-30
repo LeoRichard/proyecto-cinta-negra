@@ -9,6 +9,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     email: String
     gender: String
     favorites: [Receta]
+    recetas: [Receta]
   }
 
   input UserInput {

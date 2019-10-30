@@ -28,6 +28,10 @@ const userSchema = new schema(
     favorites: [{
       type: schema.Types.ObjectId,
       ref: 'receta'
+    }],
+    recetas: [{
+      type: schema.Types.ObjectId,
+      ref: 'receta'
     }]
   },
   { timestamps: true }

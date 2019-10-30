@@ -33,14 +33,18 @@ const resolvers = {
     },
     addReceta: async (parent, data, context, info) => {
       try {
+        const { user } = context;
         const { recetaInfo, ingredientID } = data;
         const newReceta = await addRecetaAction(recetaInfo);
         const filter = { _id: ingredientID };
         const filterReceta = { _id: newReceta._id };
+        const filterUser = {_id: user._id};
         const update = { $push: { 'recetas': newReceta._id } };
+        const updateUser = { $push: { 'recetas': newReceta._id } };
         const updateReceta = { $push: { 'ingredients': ingredientID } };
         await updateIngredientAction(filter, update);
         await updateRecetaAction(filterReceta, updateReceta);
+        await updateUserAction(filterUser, updateUser);
         return newReceta;
       } catch (error) {
         console.log("TCL: error", error);

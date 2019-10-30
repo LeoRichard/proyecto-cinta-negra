@@ -25,8 +25,42 @@ const getAllRecetasAction = async () => {
   }
 };
 
+const getRecetaAction = async (recetaID) => {
+  try {
+    return await RecetaModel.findOne({ _id: recetaID });
+  } catch (error) {
+    console.log("TCL: getAllRecetasAction -> error", error);
+  }
+};
+
+const deleteRecetaAction = async (recetaID) => {
+  try {
+    const filter = { _id: recetaID };
+    const update = { $set: { isActive: false } };
+    return await updateRecetaAction(filter, update);
+  } catch (error) {
+    console.log("TCL: deleteRecetaAction -> error", error);
+  }
+};
+
+const isRecetaActive = async (recetaID) => {
+  try {
+    const receta = await RecetaModel.findOne({ _id: recetaID });
+    if (receta.isActive) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("TCL: isRecetaActive -> error", error);
+  }
+};
+
 export {
   addRecetaAction,
   updateRecetaAction,
-  getAllRecetasAction
+  getAllRecetasAction,
+  getRecetaAction,
+  isRecetaActive,
+  deleteRecetaAction
 };

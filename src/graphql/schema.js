@@ -39,6 +39,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     name: String
     difficulty: String
     ingredients: [Ingredient]
+    isActive: Boolean
   }
 
   input RecetaInput {
@@ -57,6 +58,8 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     addFavorite(recetaID: String) : User @AuthDirective
     addIngredient(ingredientInfo: IngredientInput, recetaID: String) : Ingredient
     addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta @AuthDirective
+    removeFavorite(recetaID: String) : User @AuthDirective
+    deleteReceta(recetaID: String) : Receta
     doLogin(userName: String, password: String) : Token
   }
 `;

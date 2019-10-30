@@ -15,7 +15,11 @@ const recetaSchema = new schema(
     ingredients: [{
       type: schema.Types.ObjectId,
       ref: 'ingredient'
-    }]
+    }],
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

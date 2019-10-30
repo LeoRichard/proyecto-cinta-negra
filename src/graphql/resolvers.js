@@ -8,7 +8,10 @@ import {
 import {
   addRecetaAction,
   updateRecetaAction,
-  getAllRecetasAction
+  getAllRecetasAction,
+  getRecetaAction,
+  isRecetaActive,
+  deleteRecetaAction
 } from './actions/recetasActions';
 
 import {
@@ -62,15 +65,43 @@ const resolvers = {
       try {
         const { recetaID } = data;
         const { user } = context;
+        const isActive = await isRecetaActive(recetaID);
+
+        if(isActive) {
+          const filter = { _id: user._id };
+          const update = { $push: { 'favorites': recetaID } };
+          console.log("Favorite added to user: " + user.name);
+          return await updateUserAction(filter, update);
+        } else {
+          console.log("Favorite not added: Receta is not active.");
+          return;
+        }
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
+    removeFavorite: async (parent, data, context, info) => {
+      try {
+        const { recetaID } = data;
+        const { user } = context;
         const filter = { _id: user._id };
-        const update = { $push: { 'favorites': recetaID } };
+        const update = { $pull: { 'favorites': recetaID } };
+        console.log("Favorite removed from user: " + user.name);
         return await updateUserAction(filter, update);
 
       } catch (error) {
         console.log("TCL: error", error);
       }
     },
-
+    deleteReceta: async (parent, data, context, info) => {
+      try {
+        const { recetaID } = data;
+        console.log("Receta Deleted.")
+        return await deleteRecetaAction(recetaID);
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
     doLogin: async (parent, data, context, info) => {
       try {
         const { userName, password } = data;

@@ -24,7 +24,11 @@ const userSchema = new schema(
     password: {
       type: String,
       required: true
-    }
+    },
+    favorites: [{
+      type: schema.Types.ObjectId,
+      ref: 'receta'
+    }]
   },
   { timestamps: true }
 );

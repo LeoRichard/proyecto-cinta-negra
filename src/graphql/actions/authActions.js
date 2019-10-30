@@ -42,3 +42,8 @@ const getContext = (req) => {
     return req;
   }
 };
+
+export {
+  getContext,
+  AuthDirective
+};

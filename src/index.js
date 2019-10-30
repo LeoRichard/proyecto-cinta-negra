@@ -2,6 +2,10 @@ import { ApolloServer } from 'apollo-server';
 import typeDefs from './graphql/schema';
 import resolvers from './graphql/resolvers';
 import mongoose from 'mongoose';
+import {
+  getContext,
+  AuthDirective
+} from './graphql/actions/authActions';
 
 const url = process.env.DATA_BASE;
 
@@ -18,7 +22,14 @@ const mongoDB = mongoose.connection;
 mongoDB.on('error', console.error.bind(console, "Error de conexion!"));
 mongoDB.on('open', () => console.log('Bd conectada'));
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  schemaDirectives: {
+    AuthDirective: AuthDirective
+  },
+  context: async ({ req }) => getContext(req),
+});
 
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);

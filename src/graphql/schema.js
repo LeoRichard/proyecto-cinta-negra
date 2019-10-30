@@ -1,12 +1,14 @@
 import { gql } from 'apollo-server';
 
 const typeDefs = gql`
+directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
 
   type User {
     name: String
     lastName: String
     email: String
     gender: String
+    favorites: [Receta]
   }
 
   input UserInput {
@@ -46,13 +48,15 @@ const typeDefs = gql`
   type Query {
     users: [User]
     ingredients: [Ingredient]
-    recetas: [Receta]
+    recetas: [Receta] @AuthDirective
   }
 
   type Mutation {
     addUser(data: UserInput) : Token
+    addFavorite(recetaID: String) : User @AuthDirective
     addIngredient(ingredientInfo: IngredientInput, recetaID: String) : Ingredient
-    addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta
+    addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta @AuthDirective
+    doLogin(userName: String, password: String) : Token
   }
 `;
 

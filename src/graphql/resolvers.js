@@ -1,6 +1,8 @@
 import {
   addUserAction,
-  updateUserAction
+  updateUserAction,
+  doLoginAction,
+  getAllUsersAction
 } from './actions/usersActions';
 
 import {
@@ -18,7 +20,8 @@ import {
 const resolvers = {
   Query: {
     ingredients: () => getAllIngredientsAction(),
-    recetas: () => getAllRecetasAction()
+    recetas: () => getAllRecetasAction(),
+    users: () => getAllUsersAction()
   },
   Mutation: {
     addUser: async (parent, data, context, info) => {
@@ -40,13 +43,34 @@ const resolvers = {
         await updateRecetaAction(filterReceta, updateReceta);
         return newReceta;
       } catch (error) {
-
+        console.log("TCL: error", error);
       }
     },
     addIngredient: async (parent, data, context, info) => {
       try {
         const newData = await RecetaModel.create(data.data);
         console.log("TCL: newData", newData);
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
+    addFavorite: async (parent, data, context, info) => {
+      try {
+        const { recetaID } = data;
+        const { user } = context;
+        const filter = { _id: user._id };
+        const update = { $push: { 'favorites': recetaID } };
+        return await updateUserAction(filter, update);
+
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
+
+    doLogin: async (parent, data, context, info) => {
+      try {
+        const { userName, password } = data;
+        return await doLoginAction(userName, password);
       } catch (error) {
         console.log("TCL: error", error);
       }

@@ -18,7 +18,7 @@ const updateIngredientAction = async (filter, update) => {
 
 const getAllIngredientsAction = async () => {
   try {
-    return await IngredientModel.find();
+    return await IngredientModel.find().populate('recetas');
   } catch (error) {
     console.log("TCL: getAllIngredientsAction -> error", error);
   }

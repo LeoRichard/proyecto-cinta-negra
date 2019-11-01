@@ -20,6 +20,8 @@ import {
   getAllIngredientsAction
 } from './actions/ingredientsActions';
 
+import { storeUpload } from '../graphql/actions/utils/uploader';
+
 const resolvers = {
   Query: {
     ingredients: () => getAllIngredientsAction(),
@@ -29,7 +31,18 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, data, context, info) => {
       try {
-        return await addUserAction(data.data);
+        // sube el archivo
+        const { createReadStream } = await data.data.profileImage;
+        const stream = createReadStream();
+        const { url } = await storeUpload(stream, 'image');
+
+        // registra usario
+        const userInfo = {
+          ...data.data,
+          profileImage: url,
+        };
+
+        return await addUserAction(userInfo);
       } catch (error) {
         console.log("TCL: error", error);
       }
@@ -96,7 +109,7 @@ const resolvers = {
     deleteReceta: async (parent, data, context, info) => {
       try {
         const { recetaID } = data;
-        console.log("Receta Deleted.")
+        console.log("Receta Deleted.");
         return await deleteRecetaAction(recetaID);
       } catch (error) {
         console.log("TCL: error", error);

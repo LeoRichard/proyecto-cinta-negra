@@ -25,6 +25,9 @@ const userSchema = new schema(
       type: String,
       required: true
     },
+    profileImage: {
+      type: String
+    },
     favorites: [{
       type: schema.Types.ObjectId,
       ref: 'receta'

@@ -18,6 +18,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     email: String
     gender: String
     password: String
+    profileImage: Upload
   }
 
   type Token {

@@ -1,4 +1,5 @@
 import { RecetaModel } from '../../database/models';
+import { updateIngredientAction } from './ingredientsActions';
 
 const addRecetaAction = async (recetaData) => {
   try {
@@ -60,6 +61,9 @@ const addIngredientToRecetaAction = async (ingredientID, recetaID) => {
   try {
     const filter = { _id: recetaID };
     const update = { $push: {'ingredients': ingredientID } };
+    const filterIngredient = { _id: ingredientID };
+    const updateIngredient = { $push: {'recetas': recetaID } };
+    await updateIngredientAction(filterIngredient, updateIngredient);
     return await updateRecetaAction(filter, update);
   } catch (error) {
     console.log("TCL: addIngredientToRecetaAction -> error", error);

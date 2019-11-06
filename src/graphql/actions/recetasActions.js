@@ -56,11 +56,22 @@ const isRecetaActive = async (recetaID) => {
   }
 };
 
+const addIngredientToRecetaAction = async (ingredientID, recetaID) => {
+  try {
+    const filter = { _id: recetaID };
+    const update = { $push: {'ingredients': ingredientID } };
+    return await updateRecetaAction(filter, update);
+  } catch (error) {
+    console.log("TCL: addIngredientToRecetaAction -> error", error);
+  }
+};
+
 export {
   addRecetaAction,
   updateRecetaAction,
   getAllRecetasAction,
   getRecetaAction,
   isRecetaActive,
-  deleteRecetaAction
+  deleteRecetaAction,
+  addIngredientToRecetaAction
 };

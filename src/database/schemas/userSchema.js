@@ -35,7 +35,11 @@ const userSchema = new schema(
     recetas: [{
       type: schema.Types.ObjectId,
       ref: 'receta'
-    }]
+    }],
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

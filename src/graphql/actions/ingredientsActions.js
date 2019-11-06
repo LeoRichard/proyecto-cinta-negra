@@ -16,6 +16,17 @@ const updateIngredientAction = async (filter, update) => {
   }
 };
 
+const deleteIngredientAction = async (ingredientID) => {
+  try {
+    const filter = { _id: ingredientID };
+    const update = { $set: { isActive: false } };
+    console.log("Ingredient borrado.");
+    return await updateIngredientAction(filter, update);
+  } catch (error) {
+    console.log("TCL: deleteIngredientAction -> error", error);
+  }
+};
+
 const getAllIngredientsAction = async () => {
   try {
     return await IngredientModel.find().populate('recetas');
@@ -27,5 +38,6 @@ const getAllIngredientsAction = async () => {
 export {
   addIngredientAction,
   updateIngredientAction,
+  deleteIngredientAction,
   getAllIngredientsAction
 };

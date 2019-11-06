@@ -1,8 +1,10 @@
 import {
   addUserAction,
   updateUserAction,
+  deleteUserAction,
   doLoginAction,
-  getAllUsersAction
+  getAllUsersAction,
+  addFavoriteAction
 } from './actions/usersActions';
 
 import {
@@ -10,13 +12,14 @@ import {
   updateRecetaAction,
   getAllRecetasAction,
   getRecetaAction,
-  isRecetaActive,
-  deleteRecetaAction
+  deleteRecetaAction,
+  addIngredientToRecetaAction
 } from './actions/recetasActions';
 
 import {
   addIngredientAction,
   updateIngredientAction,
+  deleteIngredientAction,
   getAllIngredientsAction
 } from './actions/ingredientsActions';
 
@@ -66,10 +69,37 @@ const resolvers = {
         console.log("TCL: error", error);
       }
     },
+    deleteUser: async (parent, data, context, info) => {
+      try {
+        const { userID } = data;
+        return await deleteUserAction(userID);
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
     addIngredient: async (parent, data, context, info) => {
       try {
-        const newData = await RecetaModel.create(data.data);
-        console.log("TCL: newData", newData);
+        const { ingredientInfo, recetaID } = data;
+        const newIngredient = await addIngredientAction(ingredientInfo, recetaID);
+        console.log("TCL: newIngredient", newIngredient);
+        return newIngredient;
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
+    deleteIngredient: async (parent, data, context, info) => {
+      try {
+        const { ingredientID } = data;
+        console.log("Ingredient Deleted.");
+        return await deleteIngredientAction(ingredientID);
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
+    addIngredientToReceta: async (parent, data, context, info) => {
+      try {
+        const { ingredientID, recetaID } = data;
+        return await addIngredientToRecetaAction(ingredientID, recetaID);
       } catch (error) {
         console.log("TCL: error", error);
       }
@@ -78,17 +108,8 @@ const resolvers = {
       try {
         const { recetaID } = data;
         const { user } = context;
-        const isActive = await isRecetaActive(recetaID);
+        return await addFavoriteAction(user, recetaID);
 
-        if(isActive) {
-          const filter = { _id: user._id };
-          const update = { $push: { 'favorites': recetaID } };
-          console.log("Favorite added to user: " + user.name);
-          return await updateUserAction(filter, update);
-        } else {
-          console.log("Favorite not added: Receta is not active.");
-          return;
-        }
       } catch (error) {
         console.log("TCL: error", error);
       }

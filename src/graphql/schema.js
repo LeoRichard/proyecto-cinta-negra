@@ -10,6 +10,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     gender: String
     favorites: [Receta]
     recetas: [Receta]
+    isActive: Boolean
   }
 
   input UserInput {
@@ -29,6 +30,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     _id: ID
     name: String
     recetas: [Receta]
+    isActive: Boolean
   }
 
   input IngredientInput {
@@ -56,11 +58,14 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
 
   type Mutation {
     addUser(data: UserInput) : Token
+    deleteUser(userID: String) : User
     addFavorite(recetaID: String) : User @AuthDirective
-    addIngredient(ingredientInfo: IngredientInput, recetaID: String) : Ingredient
-    addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta @AuthDirective
     removeFavorite(recetaID: String) : User @AuthDirective
-    deleteReceta(recetaID: String) : Receta
+    addIngredient(ingredientInfo: IngredientInput, recetaID: String) : Ingredient @AuthDirective
+    addIngredientToReceta(ingredientID: String, recetaID: String) : Receta
+    deleteIngredient(ingredientID: String) : Ingredient @AuthDirective
+    addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta @AuthDirective
+    deleteReceta(recetaID: String) : Receta @AuthDirective
     doLogin(userName: String, password: String) : Token
   }
 `;

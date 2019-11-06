@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../../database/models';
 import bcrypt from 'bcrypt';
+import { isRecetaActive } from './recetasActions';
 
 Date.prototype.addDays = function (days) {
   const date = new Date(this.valueOf());
@@ -61,6 +62,17 @@ const updateUserAction = async (filter, update) => {
   }
 };
 
+const deleteUserAction = async (userID) => {
+  try {
+    const filter = { _id: userID };
+    const update = { $set: { isActive: false } };
+    console.log("Usuario borrado.");
+    return await updateUserAction(filter, update);
+  } catch (error) {
+    console.log("TCL: deleteUserAction -> error", error);
+  }
+};
+
 const doLoginAction = async (userName, password) => {
   try {
     const filter = { email: userName };
@@ -78,10 +90,30 @@ const doLoginAction = async (userName, password) => {
   }
 };
 
+const addFavoriteAction = async (user, recetaID) => {
+  try {
+    const isActive = await isRecetaActive(recetaID);
+
+    if(isActive) {
+      const filter = { _id: user._id };
+      const update = { $push: { 'favorites': recetaID } };
+      console.log("Favorite added to user: " + user.name);
+      return await updateUserAction(filter, update);
+    } else {
+      console.log("Favorite not added: Receta is not active.");
+      return;
+    }
+  } catch (error) {
+    console.log("TCL: addFavoriteAction -> error", error);
+  }
+};
+
 export {
   addUserAction,
   updateUserAction,
+  deleteUserAction,
   findUserAction,
   getAllUsersAction,
-  doLoginAction
+  doLoginAction,
+  addFavoriteAction
 };

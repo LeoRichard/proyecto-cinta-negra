@@ -41,6 +41,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     _id: ID
     name: String
     difficulty: String
+    content: String
     ingredients: [Ingredient]
     isActive: Boolean
   }
@@ -48,6 +49,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
   input RecetaInput {
     name: String
     difficulty: String
+    content: String
   }
 
   type Query {

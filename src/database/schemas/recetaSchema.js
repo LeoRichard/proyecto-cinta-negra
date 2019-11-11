@@ -12,6 +12,10 @@ const recetaSchema = new schema(
       type: String,
       required: true
     },
+    content: {
+      type: String,
+      required: true
+    },
     ingredients: [{
       type: schema.Types.ObjectId,
       ref: 'ingredient'

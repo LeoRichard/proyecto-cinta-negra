@@ -24,6 +24,10 @@ const recetaSchema = new schema(
       type: Boolean,
       default: true,
     },
+    author: [{
+      type: schema.Types.ObjectId,
+      ref: 'user'
+    }],
   },
   { timestamps: true }
 );

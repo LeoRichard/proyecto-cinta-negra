@@ -72,7 +72,7 @@ const resolvers = {
         const filterUser = {_id: user._id};
         const update = { $push: { 'recetas': newReceta._id } };
         const updateUser = { $push: { 'recetas': newReceta._id } };
-        const updateReceta = { $push: { 'ingredients': ingredientID } };
+        const updateReceta = { $push: { 'ingredients': ingredientID, 'author': user._id } };
         await updateIngredientAction(filter, update);
         await updateRecetaAction(filterReceta, updateReceta);
         await updateUserAction(filterUser, updateUser);

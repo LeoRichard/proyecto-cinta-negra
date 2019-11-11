@@ -44,6 +44,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     content: String
     ingredients: [Ingredient]
     isActive: Boolean
+    author: [User]
   }
 
   input RecetaInput {

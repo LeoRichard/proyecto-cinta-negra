@@ -20,7 +20,7 @@ const updateRecetaAction = async (filter, update) => {
 
 const getAllRecetasAction = async () => {
   try {
-    return await RecetaModel.find().populate('ingredients');
+    return await RecetaModel.find().populate('ingredients').populate('author');
   } catch (error) {
     console.log("TCL: getAllRecetasAction -> error", error);
   }

@@ -27,22 +27,34 @@ import { storeUpload } from '../graphql/actions/utils/uploader';
 
 const resolvers = {
   Query: {
-    ingredients: () => getAllIngredientsAction(),
-    recetas: () => getAllRecetasAction(),
+    ingredients: async (parent, data, context, info) => {
+      try {
+        return await getAllIngredientsAction();
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
+    getAllRecetas: async (parent, data, context, info) => {
+      try {
+        return await getAllRecetasAction();
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
     users: () => getAllUsersAction()
   },
   Mutation: {
     addUser: async (parent, data, context, info) => {
       try {
         // sube el archivo
-        const { createReadStream } = await data.data.profileImage;
-        const stream = createReadStream();
-        const { url } = await storeUpload(stream, 'image');
+        //const { createReadStream } = await data.data.profileImage;
+        //const stream = createReadStream();
+        //const { url } = await storeUpload(stream, 'image');
 
         // registra usario
         const userInfo = {
           ...data.data,
-          profileImage: url,
+          profileImage: null,
         };
 
         return await addUserAction(userInfo);

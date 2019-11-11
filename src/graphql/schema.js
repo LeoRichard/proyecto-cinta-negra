@@ -53,7 +53,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
   type Query {
     users: [User]
     ingredients: [Ingredient]
-    recetas: [Receta] @AuthDirective
+    getAllRecetas: [Receta] @AuthDirective
   }
 
   type Mutation {

@@ -26,7 +26,8 @@ const userSchema = new schema(
       required: true
     },
     profileImage: {
-      type: String
+      type: String,
+      default: 'https://res.cloudinary.com/richardleodevf/image/upload/v1573673635/user-image-png_deh9zl.png'
     },
     favorites: [{
       type: schema.Types.ObjectId,

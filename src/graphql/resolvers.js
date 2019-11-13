@@ -4,7 +4,8 @@ import {
   deleteUserAction,
   doLoginAction,
   getAllUsersAction,
-  addFavoriteAction
+  addFavoriteAction,
+  getUserRecetasAction
 } from './actions/usersActions';
 
 import {
@@ -41,20 +42,31 @@ const resolvers = {
         console.log("TCL: error", error);
       }
     },
+    getUserRecetas: async (parent, data, context, info) => {
+      try {
+        const { user } = context;
+        return await getUserRecetasAction(user);
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
     users: () => getAllUsersAction()
   },
   Mutation: {
     addUser: async (parent, data, context, info) => {
+      let urlImage;
       try {
         // sube el archivo
-        //const { createReadStream } = await data.data.profileImage;
-        //const stream = createReadStream();
-        //const { url } = await storeUpload(stream, 'image');
+        if(await data.data.profileImage) {
+        const { createReadStream } = await data.data.profileImage;
+        const stream = createReadStream();
+        const { url } = await storeUpload(stream, 'image');
+        }
 
         // registra usario
         const userInfo = {
           ...data.data,
-          profileImage: null,
+          profileImage: urlImage,
         };
 
         return await addUserAction(userInfo);

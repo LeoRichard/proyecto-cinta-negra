@@ -46,6 +46,14 @@ const getAllUsersAction = async () => {
   }
 };
 
+const getUserRecetasAction = async (user) => {
+  try {
+    return await UserModel.findById(user._id).populate('recetas');
+  } catch (error) {
+    console.log("TCL: getUserRecetasAction -> error", error)
+  }
+};
+
 const findUserAction = async (filter) => {
   try {
     return await UserModel.findOne(filter);
@@ -115,5 +123,6 @@ export {
   findUserAction,
   getAllUsersAction,
   doLoginAction,
-  addFavoriteAction
+  addFavoriteAction,
+  getUserRecetasAction
 };

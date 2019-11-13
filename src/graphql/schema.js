@@ -11,6 +11,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     favorites: [Receta]
     recetas: [Receta]
     isActive: Boolean
+    profileImage: String
   }
 
   input UserInput {
@@ -57,6 +58,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     users: [User]
     ingredients: [Ingredient]
     getAllRecetas: [Receta] @AuthDirective
+    getUserRecetas: User @AuthDirective
   }
 
   type Mutation {

@@ -77,7 +77,25 @@ const resolvers = {
     addReceta: async (parent, data, context, info) => {
       try {
         const { user } = context;
-        const { recetaInfo, ingredientID } = data;
+        const { ingredientID } = data;
+
+        console.log(data.recetaInfo.featuredImage);
+
+        let urlImage;
+        // sube el archivo
+        if(await data.recetaInfo.featuredImage) {
+        const { createReadStream } = await data.recetaInfo.featuredImage;
+        const stream = createReadStream();
+        const { url } = await storeUpload(stream, 'image');
+        urlImage = url;
+        }
+
+        // registra usario
+        const recetaInfo = {
+          ...data.recetaInfo,
+          featuredImage: urlImage,
+        };
+
         const newReceta = await addRecetaAction(recetaInfo);
         const filter = { _id: ingredientID };
         const filterReceta = { _id: newReceta._id };

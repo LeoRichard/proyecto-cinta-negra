@@ -28,6 +28,10 @@ const recetaSchema = new schema(
       type: schema.Types.ObjectId,
       ref: 'user'
     }],
+    featuredImage: {
+      type: String,
+      default: 'https://res.cloudinary.com/richardleodevf/image/upload/v1573836407/1380556266799_d3z2fu.jpg'
+    },
   },
   { timestamps: true }
 );

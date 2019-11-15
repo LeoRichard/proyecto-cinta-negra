@@ -46,12 +46,14 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     ingredients: [Ingredient]
     isActive: Boolean
     author: [User]
+    featuredImage: String
   }
 
   input RecetaInput {
     name: String
     difficulty: String
     content: String
+    featuredImage: Upload
   }
 
   type Query {

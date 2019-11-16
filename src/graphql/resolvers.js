@@ -61,6 +61,7 @@ const resolvers = {
         const { createReadStream } = await data.data.profileImage;
         const stream = createReadStream();
         const { url } = await storeUpload(stream, 'image');
+        urlImage = url;
         }
 
         // registra usario

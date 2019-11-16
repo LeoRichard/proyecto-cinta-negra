@@ -59,7 +59,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
   type Query {
     users: [User]
     ingredients: [Ingredient]
-    getAllRecetas: [Receta] @AuthDirective
+    getAllRecetas: [Receta]
     getUserRecetas: User @AuthDirective
   }
 

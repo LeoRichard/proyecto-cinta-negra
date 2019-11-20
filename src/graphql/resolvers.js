@@ -1,3 +1,5 @@
+import { PubSub } from 'apollo-server';
+
 import {
   addUserAction,
   updateUserAction,
@@ -26,7 +28,17 @@ import {
 
 import { storeUpload } from '../graphql/actions/utils/uploader';
 
+const pubSub = new PubSub;
+const RECETA_ADDED = 'RECETA_ADDED';
+
 const resolvers = {
+  Subscription: {
+    recetaAdded: {
+      subscribe: (parent, data, context, info) => {
+        return pubSub.asyncIterator([RECETA_ADDED]);
+      }
+    }
+  },
   Query: {
     ingredients: async (parent, data, context, info) => {
       try {
@@ -107,6 +119,7 @@ const resolvers = {
         await updateIngredientAction(filter, update);
         await updateRecetaAction(filterReceta, updateReceta);
         await updateUserAction(filterUser, updateUser);
+        pubSub.publish(RECETA_ADDED, { recetaAdded: newReceta });
         return newReceta;
       } catch (error) {
         console.log("TCL: error", error);

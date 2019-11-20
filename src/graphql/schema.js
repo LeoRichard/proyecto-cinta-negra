@@ -56,6 +56,10 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     featuredImage: Upload
   }
 
+  type Subscription {
+    recetaAdded: Receta
+  }
+
   type Query {
     users: [User]
     ingredients: [Ingredient]

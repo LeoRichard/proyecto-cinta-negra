@@ -48,7 +48,7 @@ const getAllUsersAction = async () => {
 
 const getUserRecetasAction = async (user) => {
   try {
-    return await UserModel.findById(user._id).populate('recetas');
+    return await UserModel.findById(user._id).populate('recetas').populate('favorites');
   } catch (error) {
     console.log("TCL: getUserRecetasAction -> error", error)
   }

@@ -185,7 +185,7 @@ const resolvers = {
         const { user } = context;
         const filter = { _id: user._id };
         const update = { $pull: { 'favorites': recetaID } };
-        console.log("Favorite removed from user: " + user.name);
+        console.log("Favorite: " + recetaID + " removed from user: " + user.name);
         return await updateUserAction(filter, update);
 
       } catch (error) {

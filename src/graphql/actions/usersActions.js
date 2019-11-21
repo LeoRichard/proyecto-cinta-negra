@@ -111,7 +111,9 @@ const addFavoriteAction = async (user, recetaID) => {
       const filter = { _id: user._id };
       const update = { $push: { 'favorites': recetaID } };
       console.log("Favorite added to user: " + user.name);
-      return await updateUserAction(filter, update);
+      const updatedUser = await updateUserAction(filter, update);
+      
+      return await updatedUser;
     } else {
       console.log("Favorite not added: Receta is not active.");
       return;

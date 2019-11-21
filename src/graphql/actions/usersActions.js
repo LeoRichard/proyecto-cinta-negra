@@ -64,7 +64,7 @@ const findUserAction = async (filter) => {
 
 const updateUserAction = async (filter, update) => {
   try {
-    return await UserModel.findOneAndUpdate(filter, update, { new: true });
+    return await UserModel.findOneAndUpdate(filter, update, { new: true }).populate('favorites');
   } catch (error) {
     console.log("TCL: updateUserAction -> error", error);
   }

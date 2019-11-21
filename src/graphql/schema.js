@@ -58,6 +58,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
 
   type Subscription {
     recetaAdded: Receta
+    favoriteAdded: User
   }
 
   type Query {

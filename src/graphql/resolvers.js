@@ -30,12 +30,18 @@ import { storeUpload } from '../graphql/actions/utils/uploader';
 
 const pubSub = new PubSub;
 const RECETA_ADDED = 'RECETA_ADDED';
+const FAVORITE_ADDED = 'FAVORITE_ADDED';
 
 const resolvers = {
   Subscription: {
     recetaAdded: {
       subscribe: (parent, data, context, info) => {
         return pubSub.asyncIterator([RECETA_ADDED]);
+      }
+    },
+    favoriteAdded: {
+      subscribe: (parent, data, context, info) => {
+        return pubSub.asyncIterator([FAVORITE_ADDED]);
       }
     }
   },
@@ -164,7 +170,9 @@ const resolvers = {
       try {
         const { recetaID } = data;
         const { user } = context;
-        return await addFavoriteAction(user, recetaID);
+        const newFavorite = await addFavoriteAction(user, recetaID);
+        pubSub.publish(FAVORITE_ADDED, { favoriteAdded: newFavorite });
+        return newFavorite;
 
       } catch (error) {
         console.log("TCL: error", error);

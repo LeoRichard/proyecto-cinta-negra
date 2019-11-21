@@ -171,6 +171,7 @@ const resolvers = {
         const { recetaID } = data;
         const { user } = context;
         const newFavorite = await addFavoriteAction(user, recetaID);
+
         pubSub.publish(FAVORITE_ADDED, { favoriteAdded: newFavorite });
         return newFavorite;
 

@@ -78,6 +78,7 @@ directive @AuthDirective on QUERY | FIELD_DEFINITION | FIELD
     deleteIngredient(ingredientID: String) : Ingredient @AuthDirective
     addReceta(recetaInfo: RecetaInput, ingredientID: String) : Receta @AuthDirective
     deleteReceta(recetaID: String) : Receta @AuthDirective
+    removeReceta(recetaID: String) : Receta @AuthDirective
     doLogin(userName: String, password: String) : Token
   }
 `;

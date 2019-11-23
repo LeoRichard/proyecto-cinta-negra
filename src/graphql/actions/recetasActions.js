@@ -44,6 +44,14 @@ const deleteRecetaAction = async (recetaID) => {
   }
 };
 
+const removeRecetaAction = async (recetaID) => {
+  try {
+    return await RecetaModel.findOneAndDelete({ _id: recetaID });
+  } catch (error) {
+    console.log("TCL: removeRecetaAction -> error", error);
+  }
+};
+
 const isRecetaActive = async (recetaID) => {
   try {
     const receta = await RecetaModel.findOne({ _id: recetaID });
@@ -77,5 +85,6 @@ export {
   getRecetaAction,
   isRecetaActive,
   deleteRecetaAction,
+  removeRecetaAction,
   addIngredientToRecetaAction
 };

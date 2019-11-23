@@ -16,6 +16,7 @@ import {
   getAllRecetasAction,
   getRecetaAction,
   deleteRecetaAction,
+  removeRecetaAction,
   addIngredientToRecetaAction
 } from './actions/recetasActions';
 
@@ -197,6 +198,21 @@ const resolvers = {
         const { recetaID } = data;
         console.log("Receta Deleted.");
         return await deleteRecetaAction(recetaID);
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    },
+    removeReceta: async (parent, data, context, info) => {
+      try {
+        const { recetaID } = data;
+        const { user } = context;
+        const filter = { _id: user._id };
+        const update = { $pull: { 'recetas': recetaID } };
+        await updateUserAction(filter, update);
+        console.log("Receta id: " + recetaID + " removed from user: " + user.name);
+        console.log("Receta removed.");
+        return await removeRecetaAction(recetaID);
+
       } catch (error) {
         console.log("TCL: error", error);
       }

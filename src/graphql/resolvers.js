@@ -69,7 +69,13 @@ const resolvers = {
         console.log("TCL: error", error);
       }
     },
-    users: () => getAllUsersAction()
+    users: async (parent, data, context, info) => {
+      try {
+        return await getAllUsersAction();
+      } catch (error) {
+        console.log("TCL: error", error);
+      }
+    }
   },
   Mutation: {
     addUser: async (parent, data, context, info) => {
